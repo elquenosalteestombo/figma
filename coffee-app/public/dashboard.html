@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAR VEREDALES - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard-page">
+    <div class="container">
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h1 class="neon-title">BAR VEREDALES</h1>
+                <div class="user-info">
+                    <div class="user-details">
+                        <span id="userName">Cargando...</span>
+                        <span id="userEmail">Cargando...</span>
+                        <span id="userRole">Cargando...</span>
+                    </div>
+                    <button class="logout-btn" onclick="handleLogout()">
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+            
+            <div class="dashboard-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Usuarios Registrados</h3>
+                        <div class="stat-number" id="totalUsers">-</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Sesiones Activas</h3>
+                        <div class="stat-number" id="activeSessions">-</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Usuarios Activos</h3>
+                        <div class="stat-number" id="activeUsers">-</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Total de Logs</h3>
+                        <div class="stat-number" id="totalLogs">-</div>
+                    </div>
+                </div>
+                
+                <div class="actions-grid">
+                    <div class="action-card">
+                        <h3>Ver Menú</h3>
+                        <p>Acceder al menú de bebidas y hacer pedidos</p>
+                        <button class="action-btn" onclick="goToMenu()">
+                            Ir al Menú
+                        </button>
+                    </div>
+                    
+                    <div class="action-card">
+                        <h3>Gestionar Usuarios</h3>
+                        <p>Ver y administrar todos los usuarios registrados</p>
+                        <button class="action-btn" onclick="showUsers()">
+                            Ver Usuarios
+                        </button>
+                    </div>
+                    
+                    <div class="action-card">
+                        <h3>Ver Logs</h3>
+                        <p>Revisar el historial de actividades del sistema</p>
+                        <button class="action-btn" onclick="showLogs()">
+                            Ver Logs
+                        </button>
+                    </div>
+                    
+                    <div class="action-card">
+                        <h3>Configuración</h3>
+                        <p>Configurar parámetros del sistema</p>
+                        <button class="action-btn" onclick="showSettings()">
+                            Configurar
+                        </button>
+                    </div>
+                    
+                    <div class="action-card">
+                        <h3>Exportar Datos</h3>
+                        <p>Exportar toda la información de la base de datos</p>
+                        <button class="action-btn" onclick="exportData()">
+                            Exportar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para mostrar usuarios -->
+    <div id="usersModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('usersModal')">&times;</span>
+            <h2>Usuarios Registrados</h2>
+            <div id="usersList" class="users-list"></div>
+        </div>
+    </div>
+
+    <!-- Modal para mostrar logs -->
+    <div id="logsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('logsModal')">&times;</span>
+            <h2>Logs del Sistema</h2>
+            <div id="logsList" class="logs-list"></div>
+        </div>
+    </div>
+
+    <!-- Modal para configuración -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('settingsModal')">&times;</span>
+            <h2>Configuración del Sistema</h2>
+            <div class="settings-form">
+                <div class="form-group">
+                    <label>Modo Mantenimiento:</label>
+                    <input type="checkbox" id="maintenanceMode">
+                </div>
+                <div class="form-group">
+                    <label>Máximo Intentos de Login:</label>
+                    <input type="number" id="maxLoginAttempts" min="1" max="10" value="5">
+                </div>
+                <button class="neon-button" onclick="saveSettings()">
+                    Guardar Configuración
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="database.js"></script>
+    <script src="app.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAR VEREDALES - Menú</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="menu-page">
+    <div class="container">
+        <div class="menu-container">
+            <div class="menu-header">
+                <h1 class="neon-title">BAR VEREDALES</h1>
+                <div class="menu-controls">
+                    <button class="cart-btn" onclick="showCart()">
+                        🛒 Carrito (<span id="cartCount">0</span>)
+                    </button>
+                    <button class="logout-btn" onclick="handleLogout()">
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+            
+            <div class="menu-grid">
+                <!-- Bebidas sin alcohol -->
+                <div class="menu-category">
+                    <h2 class="category-title">Bebidas sin alcohol</h2>
+                    <div class="menu-table">
+                        <div class="table-header">
+                            <span>Bebida</span>
+                            <span>Precio</span>
+                            <span>Acción</span>
+                        </div>
+                        <div class="menu-items">
+                            <div class="menu-item">
+                                <span class="item-name">Limonada natural</span>
+                                <span class="item-price">$7.000</span>
+                                <button class="add-btn" onclick="addToCart('Limonada natural', 7000)">+</button>
+                            </div>
+                            <div class="menu-item">
+                                <span class="item-name">Limonada de coco</span>
+                                <span class="item-price">$9.000</span>
+                                <button class="add-btn" onclick="addToCart('Limonada de coco', 9000)">+</button>
+                            </div>
+                            <div class="menu-item">
+                                <span class="item-name">Jugos naturales (mango, fresa, maracuyá, guanábana)</span>
+                                <span class="item-price">$8.000</span>
+                                <button class="add-btn" onclick="addToCart('Jugos naturales', 8000)">+</button>
+                            </div>
+                            <div class="menu-item">
+                                <span class="item-name">Gaseosa (Coca-Cola, Pepsi Colombiana, Sprite)</span>
+                                <span class="item-price">$5.000</span>
+                                <button class="add-btn" onclick="addToCart('Gaseosa', 5000)">+</button>
+                            </div>
+                            <div class="menu-item">
+                                <span class="item-name">Agua mineral / con gas</span>
+                                <span class="item-price">$4.000</span>
+                                <button class="add-btn" onclick="addToCart('Agua mineral', 4000)">+</button>
+                            </div>
+                            <div class="menu-item">
+                                <span class="item-name">Malteadas (vainilla, chocolate, fresa)</span>
+                                <span class="item-price">$10.000</span>
+                                <button class="add-btn" onclick="addToCart('Malteadas', 10000)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cervezas -->
+                <div class="menu-category">
+                    <h2 class="category-title">Cervezas</h2>
+                    <div class="menu-table">
+                        <div class="table-header">
+                            <span>Tipo</span>
+                            <span>Presentación</span>
+                            <span>Precio</span>
+                            <span>Acción</span>
+                        </div>
+                        <div class="menu-items">
+                            <div class="menu-item">
+                                <span class="item-name">Club Colombia</span>
+                                <span class="item-presentation">Botella 330 ml</span>
+                                <span class="item-price">$7.000</span>
+                                <button class="add-btn" onclick="addToCart('Club Colombia', 7000)">+</button>
+                            </div>
+                            <div class="menu-item">
+                                <span class="item-name">Poker / Águila / Costeña</span>
+                                <span class="item-presentation">Botella 330 ml</span>
+                                <span class="item-price">$6.000</span>
+                                <button class="add-btn" onclick="addToCart('Poker/Águila/Costeña', 6000)">+</button>
+                            </div>
+                            <div class="menu-item">
+                                <span class="item-name">BBC / Tres Cordilleras</span>
+                                <span class="item-presentation">Botella 330 ml</span>
+                                <span class="item-price">$9.000</span>
+                                <button class="add-btn" onclick="addToCart('BBC/Tres Cordilleras', 9000)">+</button>
+                            </div>
+                            <div class="menu-item">
+                                <span class="item-name">Corona / Heineken / Stella Artois</span>
+                                <span class="item-presentation">Botella 330 ml</span>
+                                <span class="item-price">$10.000</span>
+                                <button class="add-btn" onclick="addToCart('Corona/Heineken/Stella', 10000)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Licores y tragos -->
+                <div class="menu-category">
+                    <h2 class="category-title">Licores y tragos</h2>
+                    <div class="menu-table">
+                        <div class="table-header">
+                            <span>Licor</span>
+                            <span>Trago</span>
+                            <span>Botella</span>
+                            <span>Acción</span>
+                        </div>
+                        <div class="menu-items">
+                            <div class="menu-item">
+                                <span class="item-name">Ron Medellín / Bacardi</span>
+                                <span class="item-price">$7.000</span>
+                                <span class="item-price">$90.000</span>
+                                <div class="action-group">
+                                    <button class="add-btn" onclick="addToCart('Ron Medellín/Bacardi - Trago', 7000)">Trago</button>
+                                    <button class="add-btn" onclick="addToCart('Ron Medellín/Bacardi - Botella', 90000)">Botella</button>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <span class="item-name">Whisky Old Parr</span>
+                                <span class="item-price">$12.000</span>
+                                <span class="item-price">$220.000</span>
+                                <div class="action-group">
+                                    <button class="add-btn" onclick="addToCart('Whisky Old Parr - Trago', 12000)">Trago</button>
+                                    <button class="add-btn" onclick="addToCart('Whisky Old Parr - Botella', 220000)">Botella</button>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <span class="item-name">Whisky Buchanan's 12 años</span>
+                                <span class="item-price">$15.000</span>
+                                <span class="item-price">$280.000</span>
+                                <div class="action-group">
+                                    <button class="add-btn" onclick="addToCart('Whisky Buchanan\'s - Trago', 15000)">Trago</button>
+                                    <button class="add-btn" onclick="addToCart('Whisky Buchanan\'s - Botella', 280000)">Botella</button>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <span class="item-name">Tequila José Cuervo</span>
+                                <span class="item-price">$10.000</span>
+                                <span class="item-price">$180.000</span>
+                                <div class="action-group">
+                                    <button class="add-btn" onclick="addToCart('Tequila José Cuervo - Trago', 10000)">Trago</button>
+                                    <button class="add-btn" onclick="addToCart('Tequila José Cuervo - Botella', 180000)">Botella</button>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <span class="item-name">Vodka Absolut / Smirnoff</span>
+                                <span class="item-price">$9.000</span>
+                                <span class="item-price">$160.000</span>
+                                <div class="action-group">
+                                    <button class="add-btn" onclick="addToCart('Vodka Absolut/Smirnoff - Trago', 9000)">Trago</button>
+                                    <button class="add-btn" onclick="addToCart('Vodka Absolut/Smirnoff - Botella', 160000)">Botella</button>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <span class="item-name">Aguardiente Antioqueño / Néctar</span>
+                                <span class="item-price">$6.000</span>
+                                <span class="item-price">$95.000</span>
+                                <div class="action-group">
+                                    <button class="add-btn" onclick="addToCart('Aguardiente Antioqueño - Trago', 6000)">Trago</button>
+                                    <button class="add-btn" onclick="addToCart('Aguardiente Antioqueño - Botella', 95000)">Botella</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal del carrito -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCart()">&times;</span>
+            <h2>🛒 Tu Pedido</h2>
+            <div id="cartItems" class="cart-items"></div>
+            <div class="cart-total">
+                <h3>Total: $<span id="cartTotal">0</span></h3>
+                <button class="neon-button" onclick="proceedToPayment()">
+                    Proceder al Pago
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="database.js"></script>
+    <script src="app.js"></script>
+    <script src="menu.js"></script>
+</body>
+</html>

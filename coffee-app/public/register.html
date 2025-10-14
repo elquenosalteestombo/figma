@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAR VEREDALES - Registro de Usuario</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="register-page">
+    <div class="container">
+        <div class="register-container">
+            <div class="logo-section">
+                <h1 class="neon-title">BAR VEREDALES</h1>
+                <div class="neon-subtitle">registro de usuario</div>
+            </div>
+            
+            <form class="register-form" id="registerForm">
+                <div class="form-group">
+                    <label for="nombres">nombres:</label>
+                    <input type="text" id="nombres" name="nombres" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="apellidos">apellidos:</label>
+                    <input type="text" id="apellidos" name="apellidos" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edad">edad:</label>
+                    <input type="number" id="edad" name="edad" min="18" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">correo:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">contraseña</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <div class="form-links">
+                    <a href="login.html" class="link-text">¿Ya tienes cuenta? Iniciar sesión</a>
+                </div>
+                
+                <button type="submit" class="neon-button">
+                    registrarse
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="database.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAR VEREDALES - Iniciar Sesión</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="login-page">
+    <div class="container">
+        <div class="login-container">
+            <div class="logo-section">
+                <h1 class="neon-title">BAR VEREDALES</h1>
+            </div>
+            
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="email">correo</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">contraseña</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <div class="form-links">
+                    <a href="forgot-password.html" class="link-text">¿Olvidaste tu contraseña?</a>
+                    <br>
+                    <a href="register.html" class="link-text">¿No tienes cuenta? Regístrate aquí</a>
+                </div>
+                
+                <button type="submit" class="neon-button">
+                    iniciar sesión
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="database.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "coffee-service",
+  "version": "0.1.0",
+  "description": "Frontend estático del servicio de cafés (solo UI).",
+  "scripts": {
+    "serve": "npx serve public -l 3000",
+    "serve:8080": "npx serve public -l 8080"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16"
+  }
+}

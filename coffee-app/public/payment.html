@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAR VEREDALES - Pago</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="payment-page">
+    <div class="container">
+        <div class="payment-container">
+            <div class="payment-header">
+                <h1 class="neon-title">BAR VEREDALES</h1>
+                <div class="payment-controls">
+                    <button class="back-btn" onclick="goBackToMenu()">
+                        ← Volver al Menú
+                    </button>
+                    <button class="logout-btn" onclick="handleLogout()">
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+            
+            <div class="payment-content">
+                <div class="order-summary">
+                    <h2>Resumen del Pedido</h2>
+                    <div id="orderItems" class="order-items"></div>
+                    <div class="order-total">
+                        <h3>Total: $<span id="orderTotal">0</span></h3>
+                    </div>
+                </div>
+                
+                <div class="payment-methods">
+                    <h2>Métodos de Pago</h2>
+                    
+                    <div class="payment-section">
+                        <h3>💳 Pagos Digitales</h3>
+                        
+                        <div class="payment-method">
+                            <div class="method-header">
+                                <span class="method-name">Daviplata</span>
+                                <button class="select-method-btn" onclick="selectPaymentMethod('daviplata')">
+                                    Seleccionar
+                                </button>
+                            </div>
+                            <div class="method-details">
+                                <p><strong>Número:</strong> 300 123 4567</p>
+                                <p><strong>Titular:</strong> BAR VEREDALES</p>
+                                <p><strong>Referencia sugerida:</strong> Pago - #mesa</p>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method">
+                            <div class="method-header">
+                                <span class="method-name">Nequi</span>
+                                <button class="select-method-btn" onclick="selectPaymentMethod('nequi')">
+                                    Seleccionar
+                                </button>
+                            </div>
+                            <div class="method-details">
+                                <p><strong>Número:</strong> 310 123 4567</p>
+                                <p><strong>Titular:</strong> BAR VEREDALES</p>
+                                <p><strong>Referencia sugerida:</strong> Pago - #mesa</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-section">
+                        <h3>🏦 Transferencia Bancaria</h3>
+                        
+                        <div class="payment-method">
+                            <div class="method-header">
+                                <span class="method-name">Bancolombia (Cuenta de ahorros)</span>
+                                <button class="select-method-btn" onclick="selectPaymentMethod('bancolombia')">
+                                    Seleccionar
+                                </button>
+                            </div>
+                            <div class="method-details">
+                                <p><strong>Cuenta:</strong> 12345678901</p>
+                                <p><strong>Tipo:</strong> Ahorros</p>
+                                <p><strong>Titular:</strong> BAR VEREDALES</p>
+                                <p><strong>NIT / CC:</strong> 1234567890</p>
+                                <p><strong>Referencia sugerida:</strong> Pago - #mesa</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-section">
+                        <h3>📱 Pago con QR</h3>
+                        
+                        <div class="qr-payment">
+                            <div class="qr-container">
+                                <div class="qr-banner">Bar Veredales</div>
+                                <div class="qr-code">
+                                    <div class="qr-placeholder">
+                                        <div class="qr-grid">
+                                            <div class="qr-square"></div>
+                                            <div class="qr-square"></div>
+                                            <div class="qr-square"></div>
+                                            <div class="qr-square"></div>
+                                            <div class="qr-square"></div>
+                                            <div class="qr-square"></div>
+                                            <div class="qr-square"></div>
+                                            <div class="qr-square"></div>
+                                            <div class="qr-square"></div>
+                                            <div class="qr-square"></div>
+                                            <div class="qr-square"></div>
+                                            <div class="qr-square"></div>
+                                            <div class="qr-square"></div>
+                                            <div class="qr-square"></div>
+                                            <div class="qr-square"></div>
+                                            <div class="qr-square"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="select-method-btn qr-btn" onclick="selectPaymentMethod('qr')">
+                                Pagar con QR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="payment-footer">
+                <div class="table-info">
+                    <label for="tableNumber">Número de Mesa:</label>
+                    <input type="number" id="tableNumber" placeholder="Ej: 5" min="1" max="20">
+                </div>
+                <button class="confirm-payment-btn" onclick="confirmPayment()" disabled>
+                    Confirmar Pago
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeConfirmation()">&times;</span>
+            <h2>✅ Pago Confirmado</h2>
+            <div class="confirmation-details">
+                <p><strong>Método de pago:</strong> <span id="selectedMethod"></span></p>
+                <p><strong>Mesa:</strong> #<span id="selectedTable"></span></p>
+                <p><strong>Total pagado:</strong> $<span id="paidAmount"></span></p>
+                <p><strong>Fecha:</strong> <span id="paymentDate"></span></p>
+            </div>
+            <div class="confirmation-actions">
+                <button class="neon-button" onclick="goBackToMenu()">
+                    Hacer Otro Pedido
+                </button>
+                <button class="neon-button secondary" onclick="goToDashboard()">
+                    Ir al Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="database.js"></script>
+    <script src="app.js"></script>
+    <script src="payment.js"></script>
+</body>
+</html>
