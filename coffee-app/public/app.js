@@ -7,6 +7,8 @@ const CONFIG = {
 
 // Elementos del DOM
 let loginForm, registerForm;
+// API base (ajustar si el backend corre en otro host/puerto)
+const API_BASE = 'http://localhost:4000';
 
 // Utilidades
 function showNotification(message, type = 'info') {
@@ -114,22 +116,48 @@ function handleLogin(event) {
         return;
     }
     
-    try {
-        const result = window.localDB.login(email, password);
-        
-        // Guardar sesión
-        setCurrentSession(result.session.id);
-        
-        showNotification(`¡Bienvenido ${result.user.nombres} ${result.user.apellidos}!`, 'success');
-        
-        // Redirigir al menú después de 2 segundos
-        setTimeout(() => {
-            window.location.href = 'menu.html';
-        }, 2000);
-        
-    } catch (error) {
-        showNotification(error.message, 'error');
-    }
+    // Intentar login contra backend
+    (async () => {
+        try {
+            const res = await fetch(`${API_BASE}/api/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (res.ok) {
+                const body = await res.json();
+                // Guardar token (si existe)
+                if (body.token) localStorage.setItem('authToken', body.token);
+                // También guardar user id/infos si se desea
+                localStorage.setItem('currentUser', JSON.stringify(body.user || {}));
+
+                showNotification(`¡Bienvenido ${body.user.nombres} ${body.user.apellidos}!`, 'success');
+                setTimeout(() => { window.location.href = 'menu.html'; }, 1200);
+                return;
+            }
+
+            // Si el backend responde pero con error, intentar fallback a localDB
+            const errText = await res.text().catch(()=>null);
+            showNotification(errText || 'Error en autenticación (backend)', 'error');
+        } catch (err) {
+            // Fallback: si hay localDB, usarla (offline / desarrollo)
+            if (window.localDB) {
+                try {
+                    const result = window.localDB.login(email, password);
+                    setCurrentSession(result.session.id);
+                    showNotification(`¡Bienvenido ${result.user.nombres} ${result.user.apellidos}!`, 'success');
+                    setTimeout(() => { window.location.href = 'menu.html'; }, 1200);
+                    return;
+                } catch (error) {
+                    showNotification(error.message, 'error');
+                    return;
+                }
+            }
+
+            showNotification('No se pudo conectar con el servidor', 'error');
+        }
+    })();
 }
 
 // Funciones de registro mejoradas
@@ -176,22 +204,43 @@ function handleRegister(event) {
         return;
     }
     
-    try {
-        const newUser = window.localDB.createUser(userData);
-        
-        showNotification(`¡Usuario registrado exitosamente! Bienvenido ${newUser.nombres}`, 'success');
-        
-        // Limpiar formulario
-        event.target.reset();
-        
-        // Redirigir a login después de 2 segundos
-        setTimeout(() => {
-            window.location.href = 'login.html';
-        }, 2000);
-        
-    } catch (error) {
-        showNotification(error.message, 'error');
-    }
+    // Intentar registrar en backend
+    (async () => {
+        try {
+            const res = await fetch(`${API_BASE}/api/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData)
+            });
+
+            if (res.status === 201 || res.ok) {
+                const body = await res.json().catch(()=>null);
+                showNotification(body && body.message ? body.message : 'Usuario registrado', 'success');
+                event.target.reset();
+                setTimeout(() => { window.location.href = 'login.html'; }, 1200);
+                return;
+            }
+
+            const errText = await res.text().catch(()=>null);
+            showNotification(errText || 'Error al registrar (backend)', 'error');
+        } catch (err) {
+            // Fallback a localDB si el backend no está disponible
+            if (window.localDB) {
+                try {
+                    const newUser = window.localDB.createUser(userData);
+                    showNotification(`¡Usuario registrado exitosamente! Bienvenido ${newUser.nombres}`, 'success');
+                    event.target.reset();
+                    setTimeout(() => { window.location.href = 'login.html'; }, 1200);
+                    return;
+                } catch (error) {
+                    showNotification(error.message, 'error');
+                    return;
+                }
+            }
+
+            showNotification('No se pudo conectar con el servidor para registrar', 'error');
+        }
+    })();
 }
 
 // Función de logout

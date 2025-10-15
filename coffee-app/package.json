@@ -8,7 +8,9 @@
     "serve": "npx serve public -l 3000",
     "serve:8080": "npx serve public -l 8080",
     "dev": "npx serve public -l 3000",
-    "python": "python -m http.server 3000"
+    "python": "python -m http.server 3000",
+    "start:server": "node server.js",
+    "dev:server": "nodemon server.js"
   },
   "keywords": [
     "coffee",
@@ -22,6 +24,17 @@
   "license": "MIT",
   "engines": {
     "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.5.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   },
   "repository": {
     "type": "git",
