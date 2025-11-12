@@ -86,15 +86,31 @@ function clearCurrentSession() {
 
 function getCurrentUser() {
     const sessionId = getCurrentSession();
-    if (!sessionId) return null;
-
-    const session = window.localDB.getActiveSession(sessionId);
-    if (!session) {
-        clearCurrentSession();
-        return null;
+    // If there's an active session id (used by the localDB), prefer that
+    if (sessionId && window.localDB) {
+        try {
+            const session = window.localDB.getActiveSession(sessionId);
+            if (session) return window.localDB.getUserById(session.userId);
+        } catch (e) {
+            // ignore and fallback to stored user
+            console.warn('localDB session lookup failed', e);
+        }
     }
 
-    return window.localDB.getUserById(session.userId);
+    // Fallback: if we've logged in via backend, the server response stores
+    // `currentUser` in localStorage. Use that so pages don't redirect back to login.
+    const cu = localStorage.getItem('currentUser');
+    if (cu) {
+        try {
+            return JSON.parse(cu);
+        } catch (e) {
+            // malformed stored user, clear it
+            localStorage.removeItem('currentUser');
+            return null;
+        }
+    }
+
+    return null;
 }
 
 // Funciones de login mejoradas
@@ -131,6 +147,14 @@ function handleLogin(event) {
                 if (body.token) localStorage.setItem('authToken', body.token);
                 // También guardar user id/infos si se desea
                 localStorage.setItem('currentUser', JSON.stringify(body.user || {}));
+                // Create a lightweight session marker so pages that check for a session
+                // (localDB-style) don't immediately redirect. We prefix with 'backend:'
+                // to differentiate from localDB session ids.
+                try {
+                    setCurrentSession('backend:' + (body.user && (body.user.id || body.user._id) ? (body.user.id || body.user._id) : Date.now()));
+                } catch (e) {
+                    // ignore
+                }
 
                 showNotification(`¡Bienvenido ${body.user.nombres} ${body.user.apellidos}!`, 'success');
                 setTimeout(() => { window.location.href = 'menu.html'; }, 1200);
@@ -150,6 +174,10 @@ function handleLogin(event) {
                     setTimeout(() => { window.location.href = 'menu.html'; }, 1200);
                     return;
                 } catch (error) {
+                    // Ensure we also store the user info when using localDB fallback
+                    if (error && error.user) {
+                        localStorage.setItem('currentUser', JSON.stringify(error.user));
+                    }
                     showNotification(error.message, 'error');
                     return;
                 }
@@ -250,9 +278,12 @@ function handleLogout() {
         window.localDB.closeSession(sessionId);
         clearCurrentSession();
     }
-    
+    // Also clear any backend-issued token / stored user data
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('currentUser');
+
     showNotification('Sesión cerrada correctamente', 'success');
-    
+
     setTimeout(() => {
         window.location.href = 'login.html';
     }, 1500);
